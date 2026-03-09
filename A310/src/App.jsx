@@ -41,7 +41,7 @@ const keyboardMap = [
   { name: "jump", keys: ["Space"] },
 ];
 
-// --- MÄNGIJA KOMPONENT (PARANDATUD GTA STIIL) ---
+// --- MÄNGIJA KOMPONENT (SUJUV GTA STIIL) ---
 function Player() {
   const rigidBody = useRef();
   const playerModel = useRef();
@@ -53,14 +53,12 @@ function Player() {
 
     const { forward, backward, left, right } = getKeys();
 
-    // Võtame kaamera horisontaalse suuna (Y-telg)
     const rotation = new THREE.Euler().setFromQuaternion(
       state.camera.quaternion,
       "YXZ",
     );
     const cameraRotationY = rotation.y;
 
-    // Liikumise arvutamine
     let xDir = 0;
     let zDir = 0;
 
@@ -72,33 +70,36 @@ function Player() {
     const moveVector = new THREE.Vector3(xDir, 0, zDir).normalize();
     moveVector.applyAxisAngle(new THREE.Vector3(0, 1, 0), cameraRotationY);
 
-    // Rakendame kiiruse
+    // SUJUVUS LIIKUMISEL: Kasutame lerp-i kiiruse peal
+    const targetVelX = moveVector.x * speed;
+    const targetVelZ = moveVector.z * speed;
+    const velocity = rigidBody.current.linvel();
+
     rigidBody.current.setLinvel(
       {
-        x: moveVector.x * speed,
-        y: rigidBody.current.linvel().y,
-        z: moveVector.z * speed,
+        x: THREE.MathUtils.lerp(velocity.x, targetVelX, 0.2),
+        y: velocity.y,
+        z: THREE.MathUtils.lerp(velocity.z, targetVelZ, 0.2),
       },
       true,
     );
 
-    // Pane mudel vaatama alati sinna, kuhu hiir (kaamera) vaatab
-    playerModel.current.rotation.y = cameraRotationY + Math.PI;
+    // Mudeli pöörlemine hiire järgi
+    playerModel.current.rotation.y = cameraRotationY + Math.PI / 2;
 
-    // Kaamera positsioneerimine karakteri taha (ilma triivita)
+    // --- KAAMERA (HIIR ON NÜÜD KIIRE) ---
     const playerPos = rigidBody.current.translation();
-    const cameraDistance = 4;
+    const cameraDistance = 7;
     const cameraHeight = 2;
 
-    // Arvutame ideaalse kaamera koha selja taga
     const idealOffset = new THREE.Vector3(0, cameraHeight, cameraDistance);
     idealOffset.applyAxisAngle(new THREE.Vector3(0, 1, 0), cameraRotationY);
 
+    // Kaamera positsiooni ja lookAt määramine otse (ilma lerpita), et hiir ei viivitaks
     state.camera.position.x = playerPos.x + idealOffset.x;
     state.camera.position.y = playerPos.y + idealOffset.y;
     state.camera.position.z = playerPos.z + idealOffset.z;
 
-    // Kaamera vaatab alati karakteri poole (veidi kõrgemale maast)
     state.camera.lookAt(playerPos.x, playerPos.y + 1.2, playerPos.z);
   });
 
@@ -107,13 +108,13 @@ function Player() {
       ref={rigidBody}
       colliders={false}
       enabledRotations={[false, false, false]}
-      position={[0, 2, 5]} // Alustab kõrgemalt, et mitte maa alla jääda
+      position={[0, 2, 5]}
       type="dynamic"
+      friction={0.5}
     >
       <CapsuleCollider args={[0.8, 0.4]} />
       <group ref={playerModel}>
-        {/* Student mudel peaks nüüd olema nähtav */}
-        <Student scale={[3.5, 3.5, 3.5]} position={[0, -1.2, 0]} />
+        <Student scale={[4.8, 5.8, 4.8]} position={[0, 0, 0]} />
       </group>
     </RigidBody>
   );
@@ -129,7 +130,7 @@ export default function App() {
           <pointLight position={[10, 10, 10]} castShadow intensity={1.5} />
 
           <Suspense fallback={null}>
-            <Physics debug>
+            <Physics debug interpolate>
               {/* --- RUUMI KARP --- */}
               <RigidBody type="fixed">
                 <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
