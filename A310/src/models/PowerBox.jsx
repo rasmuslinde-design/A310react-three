@@ -5,7 +5,7 @@ export function Model(props) {
   const { nodes, materials } = useGLTF('/models/PowerBox.glb')
   return (
     <group {...props} dispose={null}>
-      <group position={[0, 0.134, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={51.03}>
+      <group position={[0, 0.134, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <mesh
           castShadow
           receiveShadow

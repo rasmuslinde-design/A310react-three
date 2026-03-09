@@ -11,7 +11,6 @@ export function Model(props) {
         geometry={nodes.ExecutiveChair1.geometry}
         material={materials.LeatherExecutiveChair1}
         rotation={[-Math.PI / 2, 0, 0]}
-        scale={100}
       />
     </group>
   )

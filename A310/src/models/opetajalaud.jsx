@@ -5,7 +5,7 @@ export function Model(props) {
   const { nodes, materials } = useGLTF('/models/opetajalaud.glb')
   return (
     <group {...props} dispose={null}>
-      <group position={[-0.617, 0.781, -0.001]} rotation={[-Math.PI / 2, 0, 0]} scale={100}>
+      <group position={[-0.617, 0.781, -0.001]} rotation={[-Math.PI / 2, 0, 0]}>
         <mesh
           castShadow
           receiveShadow
@@ -19,7 +19,7 @@ export function Model(props) {
           material={materials.Wood}
         />
       </group>
-      <group position={[-0.617, 0.617, -0.002]} rotation={[-Math.PI / 2, 0, 0]} scale={100}>
+      <group position={[-0.617, 0.617, -0.002]} rotation={[-Math.PI / 2, 0, 0]}>
         <mesh
           castShadow
           receiveShadow
@@ -33,7 +33,7 @@ export function Model(props) {
           material={materials.Wood}
         />
       </group>
-      <group position={[0.617, 0.617, -0.002]} rotation={[-Math.PI / 2, 0, 0]} scale={100}>
+      <group position={[0.617, 0.617, -0.002]} rotation={[-Math.PI / 2, 0, 0]}>
         <mesh
           castShadow
           receiveShadow
@@ -47,7 +47,7 @@ export function Model(props) {
           material={materials.Wood}
         />
       </group>
-      <group position={[0.617, 0.781, -0.001]} rotation={[-Math.PI / 2, 0, 0]} scale={100}>
+      <group position={[0.617, 0.781, -0.001]} rotation={[-Math.PI / 2, 0, 0]}>
         <mesh
           castShadow
           receiveShadow
@@ -61,7 +61,7 @@ export function Model(props) {
           material={materials.Wood}
         />
       </group>
-      <group rotation={[-Math.PI / 2, 0, 0]} scale={100}>
+      <group rotation={[-Math.PI / 2, 0, 0]}>
         <mesh
           castShadow
           receiveShadow

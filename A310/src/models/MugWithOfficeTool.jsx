@@ -10,7 +10,6 @@ export function Model(props) {
         receiveShadow
         geometry={nodes.Mug_with_office_tools.geometry}
         material={materials.Material}
-        scale={100}
       />
     </group>
   )

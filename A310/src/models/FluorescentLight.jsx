@@ -5,7 +5,6 @@ export function Model(props) {
   const { nodes, materials } = useGLTF('/models/FluorescentLight.glb')
   return (
     <group {...props} dispose={null}>
-      <group scale={100}>
         <mesh
           castShadow
           receiveShadow
@@ -31,7 +30,6 @@ export function Model(props) {
           material={materials.mat24}
         />
       </group>
-    </group>
   )
 }
 

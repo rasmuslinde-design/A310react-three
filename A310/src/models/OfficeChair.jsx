@@ -5,7 +5,7 @@ export function Model(props) {
   const { nodes, materials } = useGLTF('/models/OfficeChair.glb')
   return (
     <group {...props} dispose={null}>
-      <group rotation={[-Math.PI / 2, 0, 0]} scale={100}>
+      <group rotation={[-Math.PI / 2, 0, 0]}>
         <mesh
           castShadow
           receiveShadow

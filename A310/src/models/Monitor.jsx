@@ -10,7 +10,6 @@ export function Model(props) {
         receiveShadow
         geometry={nodes.Monitor.geometry}
         material={materials.Material}
-        scale={100}
       />
     </group>
   )
